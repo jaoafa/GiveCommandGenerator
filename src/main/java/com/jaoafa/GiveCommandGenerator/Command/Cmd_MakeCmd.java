@@ -74,11 +74,12 @@ public class Cmd_MakeCmd implements CommandExecutor {
 		builder.append(main.getAmount()); // "/give @p <アイテム> [個数]"
 		builder.append(" "); // "/give @p <アイテム> [個数] "
 		builder.append(main.getDurability()); // "/give @p <アイテム> [個数] [データ]"
-		builder.append(" "); // "/give @p <アイテム> [個数] [データ] "
 		net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(main);
 		NBTTagCompound nbttag = nmsItem.getTag();
-		GiveCommandGenerator.SendMessage(sender, cmd, nbttag.toString());
-		builder.append(nbttag.toString()); // "/give @p <アイテム> [個数] [データ] [データタグ]"
+		if(nbttag != null){
+			builder.append(" "); // "/give @p <アイテム> [個数] [データ] "
+			builder.append(nbttag.toString()); // "/give @p <アイテム> [個数] [データ] [データタグ]"
+		}
 
 		String code = builder.toString();
 		String name = "GiveCommandGenerator : " + main.getType().name();
