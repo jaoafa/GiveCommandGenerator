@@ -1,0 +1,13 @@
+name: ${project.artifactId}
+main: com.jaoafa.GiveCommandGenerator.GiveCommandGenerator
+version: ${project.version}
+description: Giveコマンド生成プラグイン
+database: true
+softdepend: [PermissionsEx, LuckPerms]
+author: mine_book000
+commands:
+   makecmd:
+      description: 手に持っているアイテムのgiveコマンドを生成します。
+      usage: /makecmd
+      permission: givecommandgenerator.makecmd
+      permission-message: You do not have permission to perform this command.
