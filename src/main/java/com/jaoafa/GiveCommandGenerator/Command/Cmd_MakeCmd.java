@@ -69,7 +69,10 @@ public class Cmd_MakeCmd implements CommandExecutor {
 		builder.append(" "); // "/give "
 		builder.append("@p"); // "/give <プレイヤー>"
 		builder.append(" "); // "/give <プレイヤー> "
-		builder.append(main.getType().name().toLowerCase()); // "/give @p <アイテム>"
+		String itemName = main.getType().name().toLowerCase();
+		if(itemName.equalsIgnoreCase("potato_item")) itemName = "potato";
+		//if(itemName.equalsIgnoreCase("potato_item")) itemName = "potato";
+		builder.append(itemName); // "/give @p <アイテム>"
 		builder.append(" "); // "/give @p <アイテム> "
 		builder.append(main.getAmount()); // "/give @p <アイテム> [個数]"
 		builder.append(" "); // "/give @p <アイテム> [個数] "
