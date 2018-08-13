@@ -105,6 +105,11 @@ public class Cmd_MakeCmd implements CommandExecutor {
 		}
 
 	}
+	/**
+	 * Materialとgive時のアイテム名が違う場合に置き換える
+	 * @param MaterialName　マテリアル名(Material.name())
+	 * @return 必要に応じて置き換えたGive時のアイテム名
+	 */
 	private String replaceMaterialToGiveName(String MaterialName){
 		if(MaterialName.equalsIgnoreCase("note_block")) MaterialName = "noteblock";
 		if(MaterialName.equalsIgnoreCase("dead_bush")) MaterialName = "deadbush";
