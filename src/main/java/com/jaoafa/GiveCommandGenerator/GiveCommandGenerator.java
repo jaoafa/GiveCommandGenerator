@@ -1,5 +1,7 @@
 package com.jaoafa.GiveCommandGenerator;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,6 +15,7 @@ public class GiveCommandGenerator extends JavaPlugin {
 	public static FileConfiguration conf;
 	public static JavaPlugin JavaPlugin;
 	public static String pastebin_devkey = null;
+	public static List<String> pastebin_devkeyList = null;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -72,7 +75,12 @@ public class GiveCommandGenerator extends JavaPlugin {
 		conf = getConfig();
 
 		if(conf.contains("pastebin_devkey")){
-			pastebin_devkey = conf.getString("pastebin_devkey");
+			if(conf.isList("pastebin_devkey")){
+				pastebin_devkeyList = conf.getStringList("pastebin_devkey");
+				pastebin_devkey = pastebin_devkeyList.get(0);
+			}else{
+				pastebin_devkey = conf.getString("pastebin_devkey");
+			}
 		}else{
 			getLogger().info("pastebinのdevKeyが取得できません。");
 			getLogger().info("Disable GiveCommandGenerator...");
