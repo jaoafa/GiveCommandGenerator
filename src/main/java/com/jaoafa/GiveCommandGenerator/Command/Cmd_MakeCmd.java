@@ -1,5 +1,10 @@
 package com.jaoafa.GiveCommandGenerator.Command;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +17,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jaoafa.GiveCommandGenerator.GiveCommandGenerator;
+import com.jaoafa.GiveCommandGenerator.Lib.MySQL;
 import com.jaoafa.GiveCommandGenerator.Lib.Pastebin;
 
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
@@ -86,21 +92,22 @@ public class Cmd_MakeCmd implements CommandExecutor {
 
 		String code = builder.toString();
 		String name = "GiveCommandGenerator : " + main.getType().name();
-		String type = "1"; // Unlisted
-		String expire = "1W"; // 1週間
-		String format = "text"; // None
-
-		try{
-			Pastebin pastebin = new Pastebin(code, name, type, expire, format);
-			String url = pastebin.Send();
-
-			GiveCommandGenerator.SendMessage(sender, cmd, "コマンドの発行に成功しました。" + url);
+		try {
+			PreparedStatement statement = MySQL.getNewPreparedStatement("INSERT INTO cmd (player, uuid, title, command) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, player.getName());
+			statement.setString(2, player.getUniqueId().toString());
+			statement.setString(3, name);
+			statement.setString(4, code);
+			statement.executeUpdate();
+			ResultSet res = statement.getGeneratedKeys();
+			if(res == null || !res.next()){
+				throw new IllegalStateException();
+			}
+			int id = res.getInt(1);
+			GiveCommandGenerator.SendMessage(sender, cmd, "コマンドの発行に成功しました。" + "https://jaoafa.com/cmd/" + id);
 			return true;
-		}catch(Pastebin.BadRequestException e){
+		}catch(SQLException | ClassNotFoundException e){
 			GiveCommandGenerator.SendMessage(sender, cmd, "コマンドの発行に失敗しました。(" + e.getMessage() + ")");
-			return true;
-		}catch(NullPointerException e){
-			GiveCommandGenerator.SendMessage(sender, cmd, "コマンドの発行に失敗しました。");
 			return true;
 		}
 

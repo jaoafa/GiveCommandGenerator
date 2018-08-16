@@ -1,5 +1,7 @@
 package com.jaoafa.GiveCommandGenerator;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -10,12 +12,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jaoafa.GiveCommandGenerator.Command.Cmd_MakeCmd;
+import com.jaoafa.GiveCommandGenerator.Lib.MySQL;
 
 public class GiveCommandGenerator extends JavaPlugin {
 	public static FileConfiguration conf;
 	public static JavaPlugin JavaPlugin;
 	public static String pastebin_devkey = null;
 	public static List<String> pastebin_devkeyList = null;
+	public static String sqlserver = "jaoafa.com";
+	public static String sqluser;
+	public static String sqlpassword;
+	public static Connection c = null;
+	public static long ConnectionCreate = 0;
 	/**
 	 * プラグインが起動したときに呼び出し
 	 * @author mine_book000
@@ -73,6 +81,29 @@ public class GiveCommandGenerator extends JavaPlugin {
 	 */
 	private void Load_Config(){
 		conf = getConfig();
+		if(conf.contains("sqlserver")){
+			sqlserver = (String) conf.get("sqlserver");
+		}
+
+		MySQL MySQL = new MySQL(sqlserver, "3306", "jaoafa", sqluser, sqlpassword);
+
+		try {
+			c = MySQL.openConnection();
+			ConnectionCreate = System.currentTimeMillis() / 1000L;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			getLogger().info("MySQL Connect err. [ClassNotFoundException]");
+			getLogger().info("Disable MyMaid2...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			getLogger().info("MySQL Connect err. [SQLException: " + e.getSQLState() + "]");
+			getLogger().info("Disable MyMaid2...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+		getLogger().info("MySQL Connect successful.");
 
 		if(conf.contains("pastebin_devkey")){
 			if(conf.isList("pastebin_devkey")){

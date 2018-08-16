@@ -52,6 +52,11 @@ public class Pastebin {
 		}else if(res.contains("Bad API request")){
 			throw new BadRequestException(res);
 		}else if(res.equalsIgnoreCase("Post limit, maximum pastes per 24h reached")){
+			if(GiveCommandGenerator.pastebin_devkeyList == null){
+				throw new BadRequestException(res);
+			}else if(GiveCommandGenerator.pastebin_devkeyList.size() == 1){
+				throw new BadRequestException(res);
+			}
 			GiveCommandGenerator.pastebin_devkeyList.remove(0);
 			GiveCommandGenerator.pastebin_devkeyList.add(GiveCommandGenerator.pastebin_devkey);
 			GiveCommandGenerator.pastebin_devkey = GiveCommandGenerator.pastebin_devkeyList.get(0);
