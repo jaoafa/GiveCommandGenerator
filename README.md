@@ -1,5 +1,5 @@
 # GiveCommandGenerator
-[![Build Status](https://travis-ci.org/jaoafa/XXXXXXXXXXXXXX.svg?branch=master)](https://travis-ci.org/jaoafa/XXXXXXXXXXXXXX)
+[![Build Status](https://travis-ci.org/jaoafa/GiveCommandGenerator.svg?branch=master)](https://travis-ci.org/jaoafa/GiveCommandGenerator)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/79e1c60442874bf4ac6d135f647e85de)](https://www.codacy.com/app/book000/GiveCommandGenerator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jaoafa/GiveCommandGenerator&amp;utm_campaign=Badge_Grade)
 [![Support jdk](https://img.shields.io/badge/Support%20jdk-oraclejdk8-red.svg)](https://img.shields.io)
 [![Author](https://img.shields.io/badge/Author%20MinecraftID-mine__book000-orange.svg)](https://img.shields.io)
