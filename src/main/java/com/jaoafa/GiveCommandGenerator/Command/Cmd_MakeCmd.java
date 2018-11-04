@@ -93,11 +93,12 @@ public class Cmd_MakeCmd implements CommandExecutor {
 		String code = builder.toString();
 		String name = "GiveCommandGenerator : " + main.getType().name();
 		try {
-			PreparedStatement statement = MySQL.getNewPreparedStatement("INSERT INTO cmd (player, uuid, title, command) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement statement = MySQL.getNewPreparedStatement("INSERT INTO cmd (player, uuid, title, command) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, player.getName());
 			statement.setString(2, player.getUniqueId().toString());
 			statement.setString(3, name);
 			statement.setString(4, code);
+
 			statement.executeUpdate();
 			ResultSet res = statement.getGeneratedKeys();
 			if(res == null || !res.next()){

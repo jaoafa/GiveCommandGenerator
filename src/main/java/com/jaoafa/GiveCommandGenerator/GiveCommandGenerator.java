@@ -81,6 +81,16 @@ public class GiveCommandGenerator extends JavaPlugin {
 	 */
 	private void Load_Config(){
 		conf = getConfig();
+		if(conf.contains("sqluser") && conf.contains("sqlpassword")){
+			sqluser = conf.getString("sqluser");
+			sqlpassword = conf.getString("sqlpassword");
+		}else{
+			getLogger().info("MySQL Connect err. [conf NotFound]");
+			getLogger().info("Disable GiveCommandGenerator...");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+
 		if(conf.contains("sqlserver")){
 			sqlserver = (String) conf.get("sqlserver");
 		}
@@ -93,13 +103,13 @@ public class GiveCommandGenerator extends JavaPlugin {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			getLogger().info("MySQL Connect err. [ClassNotFoundException]");
-			getLogger().info("Disable MyMaid2...");
+			getLogger().info("Disable GiveCommandGenerator...");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			getLogger().info("MySQL Connect err. [SQLException: " + e.getSQLState() + "]");
-			getLogger().info("Disable MyMaid2...");
+			getLogger().info("Disable GiveCommandGenerator...");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
